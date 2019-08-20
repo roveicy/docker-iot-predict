@@ -115,7 +115,8 @@ function processMessages (_jsonMsg)
 app.locals.processMessages = processMessages;
 // now set up the http server
 server.on( 'request', app );
-server.listen(appEnv.port, function() {console.log('Listening locally on port %d', server.address().port);});
+//server.listen(appEnv.port, function() {console.log('Listening locally on port %d', server.address().port);});
+server.listen(3000, function() {console.log('Listening locally on port %d', server.address().port);});
 /**
  * load any file requested on the server
  * @param {express.req} req - the inbound request object from the client
