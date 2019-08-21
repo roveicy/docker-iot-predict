@@ -94,7 +94,7 @@ App = {
                                 </thead>
                                 <tbody>`
                                 
-                    for (let each in data.user) {
+                    for (let each in data.sensor) {
                         (function (idx, arr) {
                             str += `<tr><th scope="row">${arr[idx].id}</th>
                                     <td>${arr[idx].device}</td>
@@ -104,7 +104,7 @@ App = {
                                     <td>${arr[idx].dhash}</td>
                                     
                                 </tr>`
-                        })(each, data.user)
+                        })(each, data.sensor)
                     }
 
                     str += `</tbody></table>`
