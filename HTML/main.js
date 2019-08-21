@@ -45,7 +45,7 @@ App = {
             device: device,
             ts: ts,
             seq: seq,
-            data:'',
+            ddata:'',
             dsize: dsize,
             dhash: dhash
         }
@@ -104,7 +104,7 @@ App = {
                                     <td>${arr[idx].device}</td>
                                     <td>${arr[idx].ts}</td>
                                     <td>${arr[idx].seq}</td>
-                                    <td>${arr[idx].data}</td>
+                                    <td>${arr[idx].ddata}</td>
                                     <td>${arr[idx].dsize}</td>
                                     <td>${arr[idx].dhash}</td>
                                     

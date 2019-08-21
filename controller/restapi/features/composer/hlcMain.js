@@ -48,7 +48,7 @@ exports.addSensor = function (req, res, next) {
                         participant.device = req.body.device;
                         participant.ts = req.body.ts;
                         participant.seq = req.body.seq;
-                        participant.data = req.body.data;
+                        participant.ddata = req.body.ddata;
                         participant.dsize = req.body.dsize;
                         participant.dhash = req.body.dhash;
                         participantRegistry.add(participant)
@@ -97,7 +97,7 @@ exports.getAllSensor = function (req, res, next) {
                                             participant.device = _jsn.device;
                                             participant.ts = _jsn.ts;
                                             participant.seq = _jsn.seq;
-                                            participant.data = _jsn.data;
+                                            participant.ddata = _jsn.ddata;
                                             participant.dsize = _jsn.dsize;
                                             participant.dhash = _jsn.dhash;
                                             allSensor.push(participant);
