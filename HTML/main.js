@@ -1,5 +1,5 @@
 App = {
-    baseURL: `http://${window.location.hostname}:6001`,
+    baseURL: `http://${window.location.hostname}:3000`,
     page: 'register',//register //test
     init: function () {
         console.log("App initialized....");
