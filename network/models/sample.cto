@@ -8,6 +8,7 @@ participant Sensor identified by id {
   o String device
   o String ts
   o String seq
+  o Stirng data
   o String dsize
   o String dhash
 }

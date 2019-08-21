@@ -48,11 +48,12 @@ exports.addSensor = function (req, res, next) {
                         participant.device = req.body.device;
                         participant.ts = req.body.ts;
                         participant.seq = req.body.seq;
+                        participant.data = req.body.data;
                         participant.dsize = req.body.dsize;
                         participant.dhash = req.body.dhash;
                         participantRegistry.add(participant)
                         .then(() => {console.log('Successfully Added'); res.send({ 'result': 'Successfully saved.', 'success': true});})
-                        .catch((error) => {console.log(req.body.name+' add failed', error); res.send({ 'result': error, 'success':false});});
+                        .catch((error) => {console.log('Add failed', error); res.send({ 'result': error, 'success':false});});
                     });
                 })
                 .catch((error) => { console.log('error with getParticipantRegistry', error); res.send(error); });
@@ -96,6 +97,7 @@ exports.getAllSensor = function (req, res, next) {
                                             participant.device = _jsn.device;
                                             participant.ts = _jsn.ts;
                                             participant.seq = _jsn.seq;
+                                            participant.data = _jsn.data;
                                             participant.dsize = _jsn.dsize;
                                             participant.dhash = _jsn.dhash;
                                             allSensor.push(participant);

@@ -45,6 +45,7 @@ App = {
             device: device,
             ts: ts,
             seq: seq,
+            data:'',
             dsize: dsize,
             dhash: dhash
         }
@@ -88,6 +89,7 @@ App = {
                                     <th scope="col">Device</th>
                                     <th scope="col">Timestamp</th>
                                     <th scope="col">Sequence</th>
+                                    <th scope="col">Data</th>
                                     <th scope="col">Data Size</th>
                                     <th scope="col">Data Hash</th>
                                 </tr>
@@ -102,6 +104,7 @@ App = {
                                     <td>${arr[idx].device}</td>
                                     <td>${arr[idx].ts}</td>
                                     <td>${arr[idx].seq}</td>
+                                    <td>${arr[idx].data}</td>
                                     <td>${arr[idx].dsize}</td>
                                     <td>${arr[idx].dhash}</td>
                                     
