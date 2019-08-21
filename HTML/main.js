@@ -93,6 +93,8 @@ App = {
                                 </tr>
                                 </thead>
                                 <tbody>`
+
+                    //data.sensor.sort
                                 
                     for (let each in data.sensor) {
                         (function (idx, arr) {

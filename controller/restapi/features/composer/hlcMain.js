@@ -44,7 +44,7 @@ exports.addSensor = function (req, res, next) {
                     .catch((_res) => {
                         //console.log(ts.toString() +' not in User registry. ');
                         let participant = factory.newResource(NS, 'Sensor', ts.toString());
-                        participant.id = req.body.device + ts.toString();
+                        participant.id = ts.toString() + req.body.device;
                         participant.device = req.body.device;
                         participant.ts = req.body.ts;
                         participant.seq = req.body.seq;
@@ -62,7 +62,7 @@ exports.addSensor = function (req, res, next) {
 
 
 exports.getAllSensor = function (req, res, next) {
-    console.log("Called Get All Sensor")
+    
     let businessNetworkConnection;
     let factory;
     let allSensor = new Array();
@@ -85,12 +85,12 @@ exports.getAllSensor = function (req, res, next) {
 
                             return participantRegistry.getAll()
                                 .then((members) => {
-                                    console.log('There are ' + members.length + ' entries.');
+                                    //console.log('There are ' + members.length + ' entries.');
 
                                     for (let each in members) {
                                         (function (_idx, _arr) {
                                             let _jsn = serializer.toJSON(_arr[_idx]);
-                                            console.log(_idx, _jsn)
+                                            //console.log(_idx, _jsn)
                                             let participant = {}
                                             participant.id = _jsn.id;
                                             participant.device = _jsn.device;
