@@ -33,36 +33,36 @@ App = {
 
         $('#container').load('register-page.html')
     },
-    saveToBC_registerUser: function () {
+    saveToBC_registerSensor: function () {
 
-        const name = $('#inputName').val();
-        const email = $('#inputEmail').val();
-        const phonenum = $('#phoneNumber').val();
-        const aadharnum = $('#aadharNumber').val();
-        const ipfile = $('#fileName1').val();
+        const device = $('#inputDevice').val();
+        const ts = $('#inputTs').val();
+        const seq = $('#inputSeq').val();
+        const dsize = $('#inputDSize').val();
+        const dhash = $('#inputDHash').val();
 
         let payload = {
-            name: name,
-            email: email,
-            phoneNumber: phonenum,
-            aadharNumber: aadharnum,
-            IPFile: ipfile
+            device: device,
+            ts: ts,
+            seq: seq,
+            dsize: dsize,
+            dhash: dhash
         }
 
         console.log(payload)
         App.showloader(true);
 
-        $.post("/composer/admin/addUser", payload, function (data, status) {
+        $.post("/composer/admin/addSensor", payload, function (data, status) {
 
             if (status === 'success') {
 
                 if (data.success) {
                     console.log("Saveed succesfylly", data.result)
-                    $('#inputName').val('');
-                    $('#inputEmail').val('');
-                    $('#phoneNumber').val('');
-                    $('#aadharNumber').val('');
-                    $('#fileName1').val('');
+                    $('#inputDevice').val('');
+                    $('#inputTs').val('');
+                    $('#inputSeq').val('');
+                    $('#inputDSize').val('');
+                    $('#inputDHash').val('');
                     App.showloader(false);
                 }
             }
@@ -74,7 +74,7 @@ App = {
 
         $('#container').empty();
 
-        $.get("/composer/admin/getAllUser", function (data, status) {
+        $.get("/composer/admin/getAllSensor", function (data, status) {
 
             if (status === 'success') {
 
@@ -84,44 +84,25 @@ App = {
                     let str = `<table class="table table-hover">
                                 <thead>
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Phone Number</th>
-                                    <th scope="col">Aadhar Number</th>
-                                    <th scope="col">IP File</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Action</th>
+                                    <th scope="col">Id</th>
+                                    <th scope="col">Device</th>
+                                    <th scope="col">Timestamp</th>
+                                    <th scope="col">Sequence</th>
+                                    <th scope="col">Data Size</th>
+                                    <th scope="col">Data Hash</th>
                                 </tr>
                                 </thead>
                                 <tbody>`
                                 
                     for (let each in data.user) {
                         (function (idx, arr) {
-                            str += `<tr><th scope="row">${parseInt(idx) + 1}</th>
-                                    <td>${arr[idx].name}</td>
-                                    <td>${arr[idx].email}</td>
-                                    <td>${arr[idx].phoneNumber}</td>
-                                    <td>${arr[idx].aadharNumber}</td>
-                                    <td><a href="${App.baseURL}/uploads/${arr[idx].IPFile}" target="_blank">${arr[idx].IPFile}</a></td>
-                                    <td>${arr[idx].state}</td>
-                                    <td>
-                                        <div class="row">
-                                            <div class="col">
-                                                <select id="dropdownMenu${idx}" class="form-control">
-                                                    <option>Uploaded</option>
-                                                    <option>Submitted to government</option>
-                                                    <option>Approved</option>
-                                                    <option>Rejected</option>
-                                                    <option>Appeal</option>
-                                                </select>
-                                            </div>
-                                            <div class="col">
-                                                <button class="btn btn-primary btn-sm btn-block" type="submit" onclick="App.uploadStatus('${arr[idx].userId}', '${idx}'); return false;">Update</button>
-                                            </div>
-                                        </div>
+                            str += `<tr><th scope="row">${arr[idx].id}</th>
+                                    <td>${arr[idx].device}</td>
+                                    <td>${arr[idx].ts}</td>
+                                    <td>${arr[idx].seq}</td>
+                                    <td>${arr[idx].dsize}</td>
+                                    <td>${arr[idx].dhash}</td>
                                     
-                                    </td>
                                 </tr>`
                         })(each, data.user)
                     }
@@ -131,38 +112,6 @@ App = {
                     App.showloader(false)
                     $('#container').html(str);
                     
-                }
-            }
-        })
-
-    },
-
-    uploadStatus: function(userId, selectid){
-        console.log("Update User:", userId, selectid);
-        //const userId = userId
-        const state = $(`#dropdownMenu${selectid}`).find(':selected').val()
-        //console.log("Selected Value ", select)
-        App.showloader(true);
-
-        let payload = {
-            userId: userId,
-            state: state.toUpperCase()
-        }
-
-        console.log(payload)
-        App.showloader(true);
-
-        $.post("/composer/admin/updateState", payload, function (data, status) {
-
-            if (status === 'success') {
-
-                if (data.success) {
-                    console.log("Updated succesfylly", data.result)
-                    
-                    App.showloader(false);
-
-                    App.loadAdminPage();
-
                 }
             }
         })
@@ -194,25 +143,6 @@ App = {
                 break;
         }
 
-    },
-    showUploadModal: function (container) {
-        $('#exampleModal').modal('show'); // show , toggle
-        $(".modal-body #userPhoto").val('');
-        $(".modal-body #status").empty();
-        $(".modal-body #fileName").val('');
-        $(".modal-body #containerId").val(container);
-    },
-    hideUploadModal: function () {
-
-        let fileName = $(".modal-body #fileName").val();
-        let containerId = $(".modal-body #containerId").val();
-
-        //console.log("Value Written to Model:::::::::ContainerID", containerId)
-        //console.log("Value Written to Model:::::::::FileName", fileName)
-
-        $(`#${containerId}`).val(fileName);
-
-        $('#exampleModal').modal('hide');
     }
 }
 

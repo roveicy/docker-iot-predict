@@ -16,16 +16,16 @@
 'use strict';
 const fs = require('fs');
 const path = require('path');
-const _home = require('os').homedir();
-const hlc_idCard = require('composer-common').IdCard;
-const composerAdmin = require('composer-admin');
-const AdminConnection = require('composer-admin').AdminConnection;
+//const _home = require('os').homedir();
+//const hlc_idCard = require('composer-common').IdCard;
+//const composerAdmin = require('composer-admin');
+//const AdminConnection = require('composer-admin').AdminConnection;
 const BusinessNetworkDefinition = require('composer-common').BusinessNetworkDefinition;
 const BusinessNetworkConnection = require('composer-client').BusinessNetworkConnection;
 const config = require('../../../env.json');
 const NS = 'org.acme.Z2BTestNetwork';
 
-exports.updateState = function(req, res, next){
+exports.addSensor = function (req, res, next) {
     let businessNetworkConnection;
     let factory;
     businessNetworkConnection = new BusinessNetworkConnection();
@@ -35,59 +35,23 @@ exports.updateState = function(req, res, next){
     return businessNetworkConnection.connect(config.composer.adminCard)
         .then(() => {
             factory = businessNetworkConnection.getBusinessNetwork().getFactory();
-            return businessNetworkConnection.getParticipantRegistry(NS + '.User')
-                .then(function (participantRegistry) {
-                    let ts = Date.now();
-
-                    return participantRegistry.get(req.body.userId)
-                    .then((participant) => {
-                        //console.log("[Before]")
-                        //console.log(participant)
-                        participant.state = req.body.state;
-                        //console.log("[After]")
-                        //console.log(participant)
-                        participantRegistry.update(participant)
-                        .then(() => {console.log(participant.name+' successfully updated.'); res.send({ 'result': 'Successfully updated.', 'success': true});})
-                        .catch((error) => {console.log(participant.name+' update failed.', error); res.send({ 'result': error, 'success':false});});
-                    })
-                    .catch((_res) => {
-                        res.send('member do not exists. update cancle');
-                    });
-                })
-                .catch((error) => { console.log('error with getParticipantRegistry', error); res.send(error); });
-        })
-        .catch((error) => { console.log('error with businessNetworkConnection', error); res.send(error); });
-
-}
-
-exports.addUser = function (req, res, next) {
-    let businessNetworkConnection;
-    let factory;
-    businessNetworkConnection = new BusinessNetworkConnection();
-    // connection prior to V0.15
-    // return businessNetworkConnection.connect(config.composer.connectionProfile, config.composer.network, config.composer.adminID, config.composer.adminPW)
-    // connection in v0.15
-    return businessNetworkConnection.connect(config.composer.adminCard)
-        .then(() => {
-            factory = businessNetworkConnection.getBusinessNetwork().getFactory();
-            return businessNetworkConnection.getParticipantRegistry(NS + '.User')
+            return businessNetworkConnection.getParticipantRegistry(NS + '.Sensor')
                 .then(function (participantRegistry) {
                     let ts = Date.now();
 
                     return participantRegistry.get(ts.toString())
                     .then((_res) => { res.send('member already exists. add cancelled');})
                     .catch((_res) => {
-                        console.log(ts.toString() +' not in User registry. ');
-                        let participant = factory.newResource(NS, 'User', ts.toString());
-                        participant.userId = ts.toString();
-                        participant.name = req.body.name;
-                        participant.email = req.body.email;
-                        participant.phoneNumber = req.body.phoneNumber;
-                        participant.aadharNumber = req.body.aadharNumber;
-                        participant.IPFile = req.body.IPFile;
-                        participant.state = 'CREATED';
+                        //console.log(ts.toString() +' not in User registry. ');
+                        let participant = factory.newResource(NS, 'Sensor', ts.toString());
+                        participant.id = req.body.device + ts.toString();
+                        participant.device = req.body.device;
+                        participant.ts = req.body.ts;
+                        participant.seq = req.body.seq;
+                        participant.dsize = req.body.dsize;
+                        participant.dhash = req.body.dhash;
                         participantRegistry.add(participant)
-                        .then(() => {console.log(req.body.name+' successfully added'); res.send({ 'result': 'Successfully saved.', 'success': true});})
+                        .then(() => {console.log('Successfully Added'); res.send({ 'result': 'Successfully saved.', 'success': true});})
                         .catch((error) => {console.log(req.body.name+' add failed', error); res.send({ 'result': error, 'success':false});});
                     });
                 })
@@ -97,10 +61,10 @@ exports.addUser = function (req, res, next) {
 };
 
 
-exports.getAllUser = function (req, res, next) {
+exports.getAllSensor = function (req, res, next) {
     let businessNetworkConnection;
     let factory;
-    let allUser = new Array();
+    let allSensor = new Array();
     businessNetworkConnection = new BusinessNetworkConnection();
     // connection prior to V0.15
     // return businessNetworkConnection.connect(config.composer.connectionProfile, config.composer.network, config.composer.adminID, config.composer.adminPW)
@@ -115,7 +79,7 @@ exports.getAllUser = function (req, res, next) {
             return businessNetworkConnection.connect(config.composer.adminCard)
                 .then(() => {
                     factory = businessNetworkConnection.getBusinessNetwork().getFactory();
-                    return businessNetworkConnection.getParticipantRegistry(NS + '.User')
+                    return businessNetworkConnection.getParticipantRegistry(NS + '.Sensor')
                         .then(function (participantRegistry) {
 
                             return participantRegistry.getAll()
@@ -127,19 +91,17 @@ exports.getAllUser = function (req, res, next) {
                                             let _jsn = serializer.toJSON(_arr[_idx]);
                                             //console.log(_idx, _jsn)
                                             let participant = {}
-                                            participant.userId = _jsn.userId;
-                                            participant.name = _jsn.name;
-                                            participant.email = _jsn.email;
-                                            participant.phoneNumber = _jsn.phoneNumber;
-                                            participant.aadharNumber = _jsn.aadharNumber;
-                                            participant.IPFile = _jsn.IPFile;
-                                            participant.state = _jsn.state;
-                                            //console.log("Participant", participant)
-                                            allUser.push(participant);
+                                            participant.id = _jsn.id;
+                                            participant.device = _jsn.device;
+                                            participant.ts = _jsn.ts;
+                                            participant.seq = _jsn.seq;
+                                            participant.dsize = _jsn.dsize;
+                                            participant.dhash = _jsn.dhash;
+                                            allSensor.push(participant);
                                         })(each, members)
                                     }
 
-                                    res.send({ 'result': 'success', 'success': true, 'user': allUser });
+                                    res.send({ 'result': 'success', 'success': true, 'sensor': allSensor });
                                 })
                                 .catch((_res) => {
                                     console.log('No one registered', _res);
@@ -153,12 +115,3 @@ exports.getAllUser = function (req, res, next) {
 
 };
 
-
-exports.uploadFiles = async (req, res, next) => {
-
-    res.status(200).json({
-        message: 'File uploaded Successful!',
-        request: req.file,
-        status: true
-    });
-}

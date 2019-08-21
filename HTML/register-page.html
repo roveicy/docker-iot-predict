@@ -1,49 +1,37 @@
 <form>
     <div class="form-group row">
-        <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+        <label for="inputDevice" class="col-sm-2 col-form-label">Device</label>
         <div class="col-sm-10">
-            <input type="text" class="form-control" id="inputName" placeholder="Full Name">
+            <input type="text" class="form-control" id="inputDevice" placeholder="Device Id/Name">
         </div>
     </div>
     <div class="form-group row">
-        <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+        <label for="inputTs" class="col-sm-2 col-form-label">Timestamp</label>
         <div class="col-sm-10">
-            <input type="text" class="form-control" id="inputEmail" placeholder="Email Id">
+            <input type="text" class="form-control" id="inputTs" placeholder="Current Timestamp">
         </div>
     </div>
     <div class="form-group row">
-        <label for="phoneNumber" class="col-sm-2 col-form-label">Phone Number</label>
+        <label for="inputSeq" class="col-sm-2 col-form-label">Sequence</label>
         <div class="col-sm-10">
-            <input type="text" class="form-control" id="phoneNumber" placeholder="Phone Number">
+            <input type="text" class="form-control" id="inputSeq" placeholder="Sequence">
         </div>
     </div>
     <div class="form-group row">
-        <label for="aadharNumber" class="col-sm-2 col-form-label">Aadhar Number</label>
+        <label for="inputDSize" class="col-sm-2 col-form-label">Data Size</label>
         <div class="col-sm-10">
-            <input type="text" class="form-control" id="aadharNumber" placeholder="Aadhar Number">
+            <input type="text" class="form-control" id="inputDSize" placeholder="Data Size">
         </div>
     </div>
-    <!--<div class="form-group row">
-        <label for="ipfile" class="col-sm-2 col-form-label">IP File</label>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" id="ipfile" placeholder="IP File">
-        </div>
-    </div>-->
-
-
-
     <div class="form-group row">
-        <button type="submit" class="btn btn-light mb-2" onclick="App.showUploadModal('fileName1'); return false;">Choose A
-            IP File</button>
+        <label for="inputDHash" class="col-sm-2 col-form-label">Data Hash</label>
         <div class="col-sm-10">
-            <input type="text" readonly class="form-control-plaintext" id="fileName1" value="">
+            <input type="text" class="form-control" id="inputDHash" placeholder="Data Hash">
         </div>
     </div>
-
-
 
     <button class="btn btn-primary btn-lg btn-block" type="submit"
-                onclick="App.saveToBC_registerUser(); return false;">Register Now</button>
+                onclick="App.saveToBC_registerSensor(); return false;">Save Sensor Data to CouchDB</button>
 </form>
 
 <!--

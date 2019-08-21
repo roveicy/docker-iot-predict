@@ -18,18 +18,6 @@
 let express = require('express');
 let router = express.Router();
 let format = require('date-format');
-let multer = require('multer');
-
-var storage = multer.diskStorage({
-    destination: function (req, file, callback) {
-        callback(null, './public/uploads');
-    },
-    filename: function (req, file, callback) {
-        callback(null, Date.now() + '-' + file.originalname )
-    }
-});
-//+ path.extname(file.originalname)
-var upload = multer({ storage : storage});
 
 let hlcMain = require('./features/composer/hlcMain');
 
@@ -52,9 +40,8 @@ router.use(function(req, res, next) {
 });
 
 
-router.post('/composer/admin/addUser*', hlcMain.addUser);
-router.post('/composer/admin/updateState*', hlcMain.updateState);
-router.get('/composer/admin/getAllUser*', hlcMain.getAllUser);
-router.post('/api/blockchain/upload*', upload.single('userPhoto'), hlcMain.uploadFiles);
+router.post('/composer/admin/addSensor*', hlcMain.addSensor);
+router.get('/composer/admin/getAllSensor*', hlcMain.getAllSensor);
+
 
 
